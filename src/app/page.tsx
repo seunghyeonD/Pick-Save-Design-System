@@ -14,15 +14,36 @@ const TABS = [
 
 type TabKey = (typeof TABS)[number]["key"];
 
+/* -- Sanitize helper -- */
+function sanitize(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+}
+
 /* -- Copy helper -- */
 function useCopy() {
   const [copied, setCopied] = useState<string | null>(null);
   const copy = useCallback((text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(text);
-    setTimeout(() => setCopied(null), 1500);
+    const safe = sanitize(text);
+    if (!navigator?.clipboard?.writeText) return;
+    navigator.clipboard.writeText(safe).then(() => {
+      setCopied(safe);
+      setTimeout(() => setCopied(null), 1500);
+    }).catch(() => {
+      /* clipboard access denied — silently fail */
+    });
   }, []);
   return { copied, copy };
+}
+
+/* -- Class name validator -- */
+const SAFE_CLASS_RE = /^[a-zA-Z0-9\s\-_/[\].:()#%]+$/;
+function safeClassName(cls: string): string {
+  return SAFE_CLASS_RE.test(cls) ? cls : "";
 }
 
 /* -- Swatch card -- */
@@ -42,12 +63,14 @@ function Swatch({
   className?: string;
 }) {
   const { copied, copy } = useCopy();
+  const safeColor = safeClassName(color);
+  const safeExtra = safeClassName(className);
   return (
     <div
       onClick={() => copy(hex)}
-      className={`group relative cursor-pointer rounded-xl overflow-hidden transition-all hover:scale-[1.02] hover:shadow-lg ${className}`}
+      className={`group relative cursor-pointer rounded-xl overflow-hidden transition-all hover:scale-[1.02] hover:shadow-lg ${safeExtra}`}
     >
-      <div className={`${color} h-[96px] flex items-end p-[16px]`}>
+      <div className={`${safeColor} h-[96px] flex items-end p-[16px]`}>
         <span
           className={`text-[13px] font-semibold ${light ? "text-white" : "text-grey-800"}`}
         >
