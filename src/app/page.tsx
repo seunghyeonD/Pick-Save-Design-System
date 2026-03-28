@@ -74,20 +74,30 @@ function Swatch({
 }
 
 /* -- Tab Sidebar (reusable) -- */
-function TabSidebar({ title, items }: { title: string; items: string[] }) {
+function TabSidebar({
+  title,
+  items,
+}: {
+  title: string;
+  items: { label: string; id: string }[];
+}) {
+  const [active, setActive] = useState(items[0]?.id ?? "");
+
   return (
     <aside className="w-[220px] shrink-0 border-r border-grey-200 bg-white sticky top-[64px] h-[calc(100vh-64px)] py-[32px] px-[24px]">
       <p className="text-[11px] text-grey-400 font-semibold uppercase tracking-[0.08em] mb-[16px]">
         {title}
       </p>
       <nav className="flex flex-col gap-[2px]">
-        {items.map((item, i) => (
-          <span
-            key={item}
-            className={`px-[12px] py-[8px] rounded-lg text-[14px] ${i === 0 ? "bg-grey-100 text-grey-950 font-semibold" : "text-grey-500 hover:bg-grey-50 hover:text-grey-700 cursor-pointer"} transition-colors`}
+        {items.map((item) => (
+          <a
+            key={item.id}
+            href={`#${item.id}`}
+            onClick={() => setActive(item.id)}
+            className={`px-[12px] py-[8px] rounded-lg text-[14px] cursor-pointer transition-colors ${active === item.id ? "bg-grey-100 text-grey-950 font-semibold" : "text-grey-500 hover:bg-grey-50 hover:text-grey-700"}`}
           >
-            {item}
-          </span>
+            {item.label}
+          </a>
         ))}
       </nav>
     </aside>
@@ -657,7 +667,10 @@ function TypographyTab() {
                     {t.token}
                   </td>
                   <td className="px-[20px] py-[18px]">
-                    <span className={`${t.cls} text-grey-950 font-semibold`}>
+                    <span
+                      className="text-grey-950"
+                      style={{ fontSize: t.size, fontWeight: Number(t.weight), lineHeight: 1.4 }}
+                    >
                       다람쥐 헌 쳇바퀴
                     </span>
                   </td>
@@ -678,7 +691,7 @@ function RadiusTab() {
   const radii = [4, 6, 8, 10, 12, 16, 20, 24, 28];
   return (
     <div className="flex">
-      <TabSidebar title="Radius" items={["Overview"]} />
+      <TabSidebar title="Radius" items={[{ label: "Overview", id: "radius-overview" }]} />
       <section className="flex-1 px-[60px] py-[48px] min-h-screen">
         <div className="mb-[60px]">
           <h2 className="text-[32px] font-semibold text-grey-950 tracking-[-0.02em] leading-[1.3]">
@@ -690,7 +703,7 @@ function RadiusTab() {
             유연하게 사용합니다.
           </p>
         </div>
-        <div className="grid grid-cols-3 gap-[20px]">
+        <div id="radius-overview" className="scroll-mt-[80px] grid grid-cols-3 gap-[20px]">
           {radii.map((r) => (
             <div
               key={r}
@@ -722,7 +735,11 @@ function UsedCaseTab() {
     <div className="flex">
       <TabSidebar
         title="Used Case"
-        items={["Primary", "Secondary", "Moodboard"]}
+        items={[
+          { label: "Primary", id: "uc-primary" },
+          { label: "Secondary", id: "uc-secondary" },
+          { label: "Moodboard", id: "uc-moodboard" },
+        ]}
       />
       <section className="flex-1 px-[60px] py-[48px] min-h-screen">
         <div className="mb-[60px]">
@@ -848,7 +865,7 @@ function UsedCaseTab() {
 function GridTab() {
   return (
     <div className="flex">
-      <TabSidebar title="Grid" items={["Mobile Grid", "Specifications"]} />
+      <TabSidebar title="Grid" items={[{ label: "Mobile Grid", id: "grid-mobile" }, { label: "Specifications", id: "grid-general" }]} />
       <section className="flex-1 px-[60px] py-[48px] min-h-screen">
         <div className="mb-[60px]">
           <h2 className="text-[32px] font-semibold text-grey-950 tracking-[-0.02em] leading-[1.3]">
@@ -1020,7 +1037,7 @@ function MobilePcTab() {
 
   return (
     <div className="flex">
-      <TabSidebar title="Screen" items={["Mobile", "PC", "Components"]} />
+      <TabSidebar title="Screen" items={[{ label: "Mobile", id: "screen-mobile" }, { label: "PC", id: "screen-pc" }, { label: "Components", id: "screen-components" }]} />
       <section className="flex-1 px-[60px] py-[48px] min-h-screen">
         <div className="mb-[60px]">
           <h2 className="text-[32px] font-semibold text-grey-950 tracking-[-0.02em] leading-[1.3]">
@@ -1352,7 +1369,12 @@ function CardTab() {
     <div className="flex">
       <TabSidebar
         title="Card"
-        items={["Product", "Store", "Store Detail", "Pickup"]}
+        items={[
+          { label: "Product", id: "card-product" },
+          { label: "Store", id: "card-store" },
+          { label: "Store Detail", id: "card-store-detail" },
+          { label: "Pickup", id: "card-pickup" },
+        ]}
       />
       <section className="flex-1 px-[60px] py-[48px] min-h-screen">
         <div className="mb-[60px]">
