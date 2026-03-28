@@ -779,45 +779,47 @@ function UsedCaseTab() {
           title="Primary Color"
           desc="브랜드 경험에 직접적인 영향을 주는 버튼, 활성 상태 및 UI 전체의 주요 구성 요소에 사용합니다."
         />
-        <div className="flex justify-center mb-[64px]">
-          <div className="relative">
-            <div className="absolute left-[-150px] top-[120px] flex items-center gap-[8px]">
-              <span className="text-[13px] text-grey-400">Active state</span>
-              <div className="w-[30px] h-[1px] bg-grey-300" />
+        <div className="flex items-start gap-[40px] mb-[64px]">
+          {/* Annotation labels */}
+          <div className="w-[200px] shrink-0 flex flex-col gap-[20px] pt-[100px]">
+            <div className="flex items-center gap-[8px]">
+              <span className="text-[13px] text-grey-400 whitespace-nowrap">Active state</span>
+              <div className="flex-1 h-[1px] bg-grey-300" />
             </div>
-            <div className="absolute left-[-160px] top-[200px] flex items-center gap-[8px]">
-              <span className="text-[13px] text-grey-400">Primary color</span>
-              <div className="w-[30px] h-[1px] bg-grey-300" />
+            <div className="flex items-center gap-[8px]">
+              <span className="text-[13px] text-grey-400 whitespace-nowrap">Primary color</span>
+              <div className="flex-1 h-[1px] bg-grey-300" />
             </div>
-            <div className="w-[320px] bg-white border border-grey-200 rounded-[28px] overflow-hidden shadow-lg">
-              <div className="h-[36px] bg-grey-50" />
-              <div className="px-[20px] pt-[16px]">
-                <h3 className="text-[20px] font-semibold text-grey-950">
-                  Title
-                </h3>
-              </div>
-              <div className="px-[20px] pt-[12px]">
-                <div className="flex gap-[4px]">
-                  <div className="flex-1 h-[36px] bg-primary-main rounded-lg flex items-center justify-center">
-                    <span className="text-[12px] text-white">Label</span>
-                  </div>
-                  <div className="flex-1 h-[36px] bg-primary-simpleLighter rounded-lg flex items-center justify-center">
-                    <span className="text-[12px] text-primary-main">Label</span>
-                  </div>
-                  <div className="flex-1 h-[36px] bg-primary-simpleLighter rounded-lg flex items-center justify-center">
-                    <span className="text-[12px] text-primary-main">Label</span>
-                  </div>
+          </div>
+          {/* Phone mockup */}
+          <div className="w-[320px] bg-white border border-grey-200 rounded-[28px] overflow-hidden shadow-lg">
+            <div className="h-[36px] bg-grey-50" />
+            <div className="px-[20px] pt-[16px]">
+              <h3 className="text-[20px] font-semibold text-grey-950">
+                Title
+              </h3>
+            </div>
+            <div className="px-[20px] pt-[12px]">
+              <div className="flex gap-[4px]">
+                <div className="flex-1 h-[36px] bg-primary-main rounded-lg flex items-center justify-center">
+                  <span className="text-[12px] text-white">Label</span>
+                </div>
+                <div className="flex-1 h-[36px] bg-primary-simpleLighter rounded-lg flex items-center justify-center">
+                  <span className="text-[12px] text-primary-main">Label</span>
+                </div>
+                <div className="flex-1 h-[36px] bg-primary-simpleLighter rounded-lg flex items-center justify-center">
+                  <span className="text-[12px] text-primary-main">Label</span>
                 </div>
               </div>
-              <div className="px-[20px] pt-[16px] pb-[20px]">
-                <div className="flex gap-[4px]">
-                  <button className="flex-1 h-[36px] bg-primary-main rounded-lg text-[12px] text-white">
-                    Button
-                  </button>
-                  <button className="flex-1 h-[36px] border border-primary-main rounded-lg text-[12px] text-primary-main">
-                    Button
-                  </button>
-                </div>
+            </div>
+            <div className="px-[20px] pt-[16px] pb-[20px]">
+              <div className="flex gap-[4px]">
+                <button className="flex-1 h-[36px] bg-primary-main rounded-lg text-[12px] text-white">
+                  Button
+                </button>
+                <button className="flex-1 h-[36px] border border-primary-main rounded-lg text-[12px] text-primary-main">
+                  Button
+                </button>
               </div>
             </div>
           </div>
