@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Primary */
+  --color-primary-main: #0f176c;
+  --color-primary-light: #0f176c80;
+  --color-primary-lighter: #0f176c4d;
+  --color-primary-simpleLighter: #0f176c1a;
+
+  /* Secondary */
+  --color-secondary-main: #f0759c;
+  --color-secondary-light: #f0759c80;
+  --color-secondary-lighter: #f0759c4d;
+  --color-secondary-simpleLighter: #f0759c1a;
+
+  /* Grey */
+  --color-grey-950: #0f0f10;
+  --color-grey-900: #171719;
+  --color-grey-800: #292a2d;
+  --color-grey-700: #46474c;
+  --color-grey-600: #5a5c63;
+  --color-grey-500: #878992;
+  --color-grey-400: #aeb0b6;
+  --color-grey-300: #dbdcdf;
+  --color-grey-200: #eaebec;
+  --color-grey-100: #f4f4f5;
+  --color-grey-50: #f7f8f9;
+
+  /* Red */
+  --color-red-700: #971818;
+  --color-red-500: #e42727;
+  --color-red-50: #e4272780;
+  --color-red-10: #e427271a;
+
+  /* Green */
+  --color-green-500: #23b44f;
+
+  /* Typography - font sizes */
+  --font-size-h1: 60px;
+  --font-size-h2: 48px;
+  --font-size-h3: 32px;
+  --font-size-h4: 24px;
+  --font-size-h5: 20px;
+  --font-size-subtitle1: 18px;
+  --font-size-subtitle2: 16px;
+  --font-size-body1: 16px;
+  --font-size-body2: 14px;
+  --font-size-caption1: 14px;
+  --font-size-caption2: 14px;
+  --font-size-caption3: 12px;
+  --font-size-button: 12px;
+}
+
+:root {
+  /* Typography - letter spacing */
+  --ls-tight: -0.02em;
+  --ls-tighter: -0.025em;
+
+  /* Grid Layout */
+  --grid-mobile-min: 375px;
+  --grid-mobile-max: 640px;
+  --grid-mobile-columns: 6;
+  --grid-mobile-margin: 16px;
+  --grid-mobile-gutter: 16px;
+  --grid-pc-min: 640px;
+  --grid-pc-width: 1920px;
+
+  /* Layout - bars */
+  --status-bar-height: 60px;
+  --top-bar-height: 52px;
+  --nav-bar-height: 88px;
+  --bottom-button-height: 80px;
+
+  /* Card sizes */
+  --card-product-sm-width: 163.5px;
+  --card-product-sm-height: 368.5px;
+  --card-store-width: 343px;
+  --card-store-height: 228px;
+  --card-store-detail-width: 343px;
+  --card-store-detail-height: 156px;
+  --card-pickup-width: 343px;
+  --card-pickup-height: 132px;
+
+  /* Spacing */
+  --content-padding: 16px;
+  --card-gap: 16px;
+  --section-gap: 24px;
+}
+
+body {
+  font-family: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
+    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  background: #ffffff;
+  color: #0f0f10;
+}
+
+*:focus-visible {
+  outline: none;
+}
