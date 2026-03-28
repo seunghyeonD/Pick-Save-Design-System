@@ -1217,147 +1217,196 @@ function MobilePcTab() {
           title="Components"
           desc="화면에 사용되는 공통 UI 컴포넌트입니다."
         />
-        <div className="grid grid-cols-2 gap-[20px]">
-          {/* Buttons */}
-          <div className="bg-white border border-grey-200 rounded-xl p-[24px]">
-            <p className="text-[12px] text-grey-400 font-semibold uppercase tracking-[0.05em] mb-[16px]">
-              Button
-            </p>
-            <div className="flex flex-wrap gap-[8px]">
-              <div className="h-[36px] px-[20px] bg-primary-main rounded-full flex items-center">
-                <span className="text-[12px] text-white font-semibold">
-                  BUTTON
-                </span>
-              </div>
-              <div className="h-[36px] px-[20px] border border-grey-300 rounded-full flex items-center bg-white">
-                <span className="text-[12px] text-grey-700 font-semibold">
-                  BUTTON
-                </span>
-              </div>
-              <div className="h-[36px] px-[20px] bg-primary-main rounded-lg flex items-center">
-                <span className="text-[12px] text-white font-semibold">
-                  BUTTON
-                </span>
-              </div>
-              <div className="h-[36px] px-[20px] bg-grey-300 rounded-lg flex items-center">
-                <span className="text-[12px] text-white font-semibold">
-                  DISABLED
-                </span>
+        <InteractiveComponents />
+      </section>
+    </div>
+  );
+}
+
+/* ============================================================
+   Interactive Components (Screen tab)
+   ============================================================ */
+function InteractiveComponents() {
+  const [btnActive, setBtnActive] = useState(0);
+  const [popupOpen, setPopupOpen] = useState<null | "confirm" | "delete">(null);
+  const [radio, setRadio] = useState<"a" | "b">("b");
+  const [toggle, setToggle] = useState(true);
+  const [checkbox, setCheckbox] = useState(true);
+
+  return (
+    <div className="grid grid-cols-2 gap-[20px]">
+      {/* Buttons */}
+      <div className="bg-white border border-grey-200 rounded-xl p-[24px]">
+        <p className="text-[12px] text-grey-400 font-semibold uppercase tracking-[0.05em] mb-[16px]">
+          Button
+        </p>
+        <div className="flex flex-wrap gap-[8px]">
+          {[
+            { label: "BUTTON", style: "primary-pill" },
+            { label: "BUTTON", style: "outline-pill" },
+            { label: "BUTTON", style: "primary-rect" },
+            { label: "DISABLED", style: "disabled" },
+          ].map((btn, i) => (
+            <button
+              key={i}
+              onClick={() => btn.style !== "disabled" && setBtnActive(i)}
+              disabled={btn.style === "disabled"}
+              className={`h-[36px] px-[20px] text-[12px] font-semibold transition-all ${
+                btn.style === "primary-pill"
+                  ? `rounded-full ${btnActive === i ? "bg-primary-main text-white scale-95 shadow-lg" : "bg-primary-main text-white hover:bg-primary-light"}`
+                  : btn.style === "outline-pill"
+                    ? `rounded-full border bg-white ${btnActive === i ? "border-primary-main text-primary-main scale-95 shadow-lg" : "border-grey-300 text-grey-700 hover:border-grey-500"}`
+                    : btn.style === "primary-rect"
+                      ? `rounded-lg ${btnActive === i ? "bg-primary-main text-white scale-95 shadow-lg" : "bg-primary-main text-white hover:bg-primary-light"}`
+                      : "rounded-lg bg-grey-300 text-white cursor-not-allowed"
+              }`}
+            >
+              {btn.label}
+            </button>
+          ))}
+        </div>
+        {btnActive !== null && (
+          <p className="text-[11px] text-grey-400 mt-[12px]">
+            Active: Button {btnActive + 1}
+          </p>
+        )}
+      </div>
+
+      {/* Popup */}
+      <div className="bg-white border border-grey-200 rounded-xl p-[24px] relative">
+        <p className="text-[12px] text-grey-400 font-semibold uppercase tracking-[0.05em] mb-[16px]">
+          Popup
+        </p>
+        <div className="flex gap-[12px]">
+          <button
+            onClick={() => setPopupOpen("confirm")}
+            className="border border-grey-200 rounded-xl p-[16px] w-[160px] hover:shadow-md transition-shadow text-left"
+          >
+            <p className="text-[13px] text-grey-800 font-semibold text-center">Title</p>
+            <p className="text-[11px] text-grey-400 text-center mt-[2px]">Click to open</p>
+            <div className="flex gap-[6px] mt-[12px]">
+              <span className="flex-1 h-[28px] border border-grey-300 rounded-lg text-[11px] text-grey-600 flex items-center justify-center">CANCEL</span>
+              <span className="flex-1 h-[28px] bg-primary-main rounded-lg text-[11px] text-white flex items-center justify-center">BUTTON</span>
+            </div>
+          </button>
+          <button
+            onClick={() => setPopupOpen("delete")}
+            className="border border-grey-200 rounded-xl p-[16px] w-[160px] hover:shadow-md transition-shadow text-left"
+          >
+            <p className="text-[13px] text-grey-800 font-semibold text-center">Title</p>
+            <p className="text-[11px] text-grey-400 text-center mt-[2px]">Click to open</p>
+            <div className="flex gap-[6px] mt-[12px]">
+              <span className="flex-1 h-[28px] border border-grey-300 rounded-lg text-[11px] text-grey-600 flex items-center justify-center">CANCEL</span>
+              <span className="flex-1 h-[28px] bg-red-500 rounded-lg text-[11px] text-white flex items-center justify-center">DELETE</span>
+            </div>
+          </button>
+        </div>
+        {/* Popup overlay */}
+        {popupOpen && (
+          <div className="absolute inset-0 bg-grey-950/40 rounded-xl flex items-center justify-center z-10">
+            <div className="bg-white rounded-xl p-[24px] w-[240px] shadow-xl">
+              <p className="text-[15px] text-grey-800 font-semibold text-center">
+                {popupOpen === "confirm" ? "확인하시겠습니까?" : "삭제하시겠습니까?"}
+              </p>
+              <p className="text-[12px] text-grey-400 text-center mt-[4px]">
+                이 작업은 되돌릴 수 없습니다
+              </p>
+              <div className="flex gap-[8px] mt-[16px]">
+                <button
+                  onClick={() => setPopupOpen(null)}
+                  className="flex-1 h-[36px] border border-grey-300 rounded-lg text-[13px] text-grey-600 hover:bg-grey-50 transition-colors"
+                >
+                  CANCEL
+                </button>
+                <button
+                  onClick={() => setPopupOpen(null)}
+                  className={`flex-1 h-[36px] rounded-lg text-[13px] text-white transition-colors ${
+                    popupOpen === "confirm"
+                      ? "bg-primary-main hover:bg-primary-light"
+                      : "bg-red-500 hover:bg-red-700"
+                  }`}
+                >
+                  {popupOpen === "confirm" ? "CONFIRM" : "DELETE"}
+                </button>
               </div>
             </div>
           </div>
-          {/* Popup */}
-          <div className="bg-white border border-grey-200 rounded-xl p-[24px]">
-            <p className="text-[12px] text-grey-400 font-semibold uppercase tracking-[0.05em] mb-[16px]">
-              Popup
-            </p>
-            <div className="flex gap-[12px]">
-              <div className="border border-grey-200 rounded-xl p-[16px] w-[160px]">
-                <p className="text-[13px] text-grey-800 font-semibold text-center">
-                  Title
-                </p>
-                <p className="text-[11px] text-grey-400 text-center mt-[2px]">
-                  caption
-                </p>
-                <div className="flex gap-[6px] mt-[12px]">
-                  <button className="flex-1 h-[28px] border border-grey-300 rounded-lg text-[11px] text-grey-600">
-                    CANCEL
-                  </button>
-                  <button className="flex-1 h-[28px] bg-primary-main rounded-lg text-[11px] text-white">
-                    BUTTON
-                  </button>
-                </div>
-              </div>
-              <div className="border border-grey-200 rounded-xl p-[16px] w-[160px]">
-                <p className="text-[13px] text-grey-800 font-semibold text-center">
-                  Title
-                </p>
-                <p className="text-[11px] text-grey-400 text-center mt-[2px]">
-                  caption
-                </p>
-                <div className="flex gap-[6px] mt-[12px]">
-                  <button className="flex-1 h-[28px] border border-grey-300 rounded-lg text-[11px] text-grey-600">
-                    CANCEL
-                  </button>
-                  <button className="flex-1 h-[28px] bg-red-500 rounded-lg text-[11px] text-white">
-                    DELETE
-                  </button>
-                </div>
-              </div>
-            </div>
+        )}
+      </div>
+
+      {/* Controls */}
+      <div className="bg-white border border-grey-200 rounded-xl p-[24px]">
+        <p className="text-[12px] text-grey-400 font-semibold uppercase tracking-[0.05em] mb-[16px]">
+          Controls
+        </p>
+        <div className="flex gap-[32px] items-center">
+          {/* Radio */}
+          <div className="flex flex-col gap-[10px]">
+            <button onClick={() => setRadio("a")} className="flex items-center gap-[8px]">
+              <div className={`w-[18px] h-[18px] rounded-full border-2 transition-all ${radio === "a" ? "border-[5px] border-primary-main" : "border-grey-300 hover:border-grey-400"}`} />
+              <span className={`text-[13px] ${radio === "a" ? "text-grey-800" : "text-grey-600"}`}>Option A</span>
+            </button>
+            <button onClick={() => setRadio("b")} className="flex items-center gap-[8px]">
+              <div className={`w-[18px] h-[18px] rounded-full border-2 transition-all ${radio === "b" ? "border-[5px] border-primary-main" : "border-grey-300 hover:border-grey-400"}`} />
+              <span className={`text-[13px] ${radio === "b" ? "text-grey-800" : "text-grey-600"}`}>Option B</span>
+            </button>
           </div>
-          {/* Toggle & Radio */}
-          <div className="bg-white border border-grey-200 rounded-xl p-[24px]">
-            <p className="text-[12px] text-grey-400 font-semibold uppercase tracking-[0.05em] mb-[16px]">
-              Controls
-            </p>
-            <div className="flex gap-[32px] items-center">
-              <div className="flex flex-col gap-[10px]">
-                <div className="flex items-center gap-[8px]">
-                  <div className="w-[18px] h-[18px] rounded-full border-2 border-grey-300" />
-                  <span className="text-[13px] text-grey-600">Off</span>
-                </div>
-                <div className="flex items-center gap-[8px]">
-                  <div className="w-[18px] h-[18px] rounded-full border-[5px] border-primary-main" />
-                  <span className="text-[13px] text-grey-800">On</span>
-                </div>
-              </div>
-              <div className="flex flex-col gap-[10px]">
-                <div className="w-[40px] h-[22px] bg-grey-300 rounded-full relative">
-                  <div className="absolute left-[2px] top-[2px] w-[18px] h-[18px] bg-white rounded-full shadow" />
-                </div>
-                <div className="w-[40px] h-[22px] bg-primary-main rounded-full relative">
-                  <div className="absolute right-[2px] top-[2px] w-[18px] h-[18px] bg-white rounded-full shadow" />
-                </div>
-              </div>
-              <div className="flex flex-col gap-[10px]">
-                <div className="flex items-center gap-[8px]">
-                  <div className="w-[18px] h-[18px] rounded border border-grey-300 bg-white" />
-                  <span className="text-[13px] text-grey-600">Unchecked</span>
-                </div>
-                <div className="flex items-center gap-[8px]">
-                  <div className="w-[18px] h-[18px] rounded bg-primary-main flex items-center justify-center">
-                    <span className="text-[10px] text-white">&#10003;</span>
-                  </div>
-                  <span className="text-[13px] text-grey-800">Checked</span>
-                </div>
-              </div>
-            </div>
+          {/* Toggle */}
+          <div className="flex flex-col gap-[10px]">
+            <button
+              onClick={() => setToggle(!toggle)}
+              className={`w-[40px] h-[22px] rounded-full relative transition-colors ${toggle ? "bg-primary-main" : "bg-grey-300"}`}
+            >
+              <div className={`absolute top-[2px] w-[18px] h-[18px] bg-white rounded-full shadow transition-all ${toggle ? "right-[2px]" : "left-[2px]"}`} />
+            </button>
+            <span className="text-[11px] text-grey-500">{toggle ? "ON" : "OFF"}</span>
           </div>
-          {/* Input */}
-          <div className="bg-white border border-grey-200 rounded-xl p-[24px]">
-            <p className="text-[12px] text-grey-400 font-semibold uppercase tracking-[0.05em] mb-[16px]">
-              Input
-            </p>
-            <div className="flex flex-col gap-[10px]">
-              <div className="h-[40px] border border-grey-200 rounded-lg px-[12px] flex items-center">
-                <span className="text-[13px] text-grey-400">Placeholder</span>
+          {/* Checkbox */}
+          <div className="flex flex-col gap-[10px]">
+            <button onClick={() => setCheckbox(!checkbox)} className="flex items-center gap-[8px]">
+              <div className={`w-[18px] h-[18px] rounded transition-all flex items-center justify-center ${checkbox ? "bg-primary-main" : "border border-grey-300 bg-white hover:border-grey-400"}`}>
+                {checkbox && <span className="text-[10px] text-white">&#10003;</span>}
               </div>
-              <div className="h-[40px] border border-primary-main rounded-lg px-[12px] flex items-center">
-                <span className="text-[13px] text-grey-800">Active input</span>
-              </div>
-              <div>
-                <div className="h-[40px] border border-red-500 rounded-lg px-[12px] flex items-center">
-                  <span className="text-[13px] text-grey-800">
-                    Error input
-                  </span>
-                </div>
-                <span className="text-[11px] text-red-500 mt-[4px] block">
-                  Error message
-                </span>
-              </div>
-              <div className="h-[40px] border border-grey-200 rounded-lg px-[12px] flex items-center">
-                <span className="text-[13px] text-grey-800 tracking-[3px]">
-                  &#x2022;&#x2022;&#x2022;&#x2022;&#x2022;
-                </span>
-                <span className="text-[13px] text-grey-400 ml-auto">
-                  &#128065;
-                </span>
-              </div>
+              <span className={`text-[13px] ${checkbox ? "text-grey-800" : "text-grey-600"}`}>
+                {checkbox ? "Checked" : "Unchecked"}
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Input */}
+      <div className="bg-white border border-grey-200 rounded-xl p-[24px]">
+        <p className="text-[12px] text-grey-400 font-semibold uppercase tracking-[0.05em] mb-[16px]">
+          Input
+        </p>
+        <div className="flex flex-col gap-[12px]">
+          <input
+            type="text"
+            placeholder="Placeholder"
+            className="h-[48px] w-full rounded-xl px-[16px] text-[14px] text-grey-800 placeholder:text-grey-400 bg-grey-50 border border-grey-200 focus:border-primary-main focus:bg-white transition-colors outline-none"
+          />
+          <input
+            type="text"
+            defaultValue="Active input"
+            className="h-[48px] w-full rounded-xl px-[16px] text-[14px] text-grey-800 bg-white border-2 border-primary-main outline-none"
+          />
+          <div>
+            <input
+              type="text"
+              defaultValue="Error input"
+              className="h-[48px] w-full rounded-xl px-[16px] text-[14px] text-grey-800 bg-white border border-red-500 outline-none"
+            />
+            <span className="text-[12px] text-red-500 mt-[6px] block">Error message</span>
+          </div>
+          <div className="relative">
+            <div className="h-[48px] w-full rounded-xl px-[16px] bg-grey-50 border border-grey-200 flex items-center">
+              <span className="text-[14px] text-grey-800 tracking-[4px]">&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;</span>
+              <span className="ml-auto text-[16px] text-grey-400 cursor-pointer select-none">&#128065;</span>
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }
